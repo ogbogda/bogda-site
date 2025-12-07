@@ -1,0 +1,374 @@
+:root {
+  /* Light theme (default) */
+  --bg: #ffffff;
+  --accent: #0b63c6;
+  --accent-2: #6fb3ff;
+  --text: #0b2540;
+  --muted: #6b7a8a;
+  --yellow: #ffdd57;
+  --container: 1100px;
+
+  /* component-specific defaults */
+  --header-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
+  --border-color: rgba(11, 38, 64, 0.06);
+  --card-bg: #ffffff;
+  --card-border: rgba(11, 38, 64, 0.06);
+  --image-border: rgba(11, 99, 198, 0.06);
+}
+
+/* Dark theme overrides */
+.theme-dark {
+  --bg: #0b1220;
+  /* deep navy */
+  --accent: #6fb3ff;
+  /* bright blue accent */
+  --accent-2: #2aa7ff;
+  --text: #e6f3ff;
+  /* light text */
+  --muted: #9fb0c6;
+  /* muted light */
+  --yellow: #ffdd57;
+
+  --header-bg: linear-gradient(180deg, rgba(11, 18, 32, 0.95), rgba(11, 18, 32, 0.9));
+  --border-color: rgba(255, 255, 255, 0.04);
+  --card-bg: rgba(255, 255, 255, 0.03);
+  --card-border: rgba(255, 255, 255, 0.04);
+  --image-border: rgba(255, 255, 255, 0.06);
+}
+
+* {
+  box-sizing: border-box
+}
+
+html {
+  scroll-behavior: smooth
+}
+
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  color: var(--text);
+  background: var(--bg, #05060a);
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Анимированный фон — звёздное поле */
+body {
+  /* если у вас уже есть переменная --bg, то сохраним её; иначе используем тёмный фон */
+  background: var(--bg, #05060a);
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Отключаем старые CSS-слои звёзд (замена на canvas) */
+body::before,
+body::after {
+  display: none !important;
+  content: none !important;
+}
+
+/* Canvas звёздного поля */
+#starfield {
+  position: fixed;
+  inset: 0;
+  z-index: -1; /* позади контента, выше фона */
+  pointer-events: none;
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+}
+
+/* Дополнительный мягкий градиент на заднем плане для атмосферы */
+body::marker {
+  /* noop to avoid some linters — оставлено пустым */
+}
+
+@keyframes moveStarsSlow {
+  from {
+    background-position: 0 0, 120px 200px;
+  }
+
+  to {
+    background-position: -20000px 8000px, 20120px -8000px;
+  }
+}
+
+@keyframes moveStarsFast {
+  from {
+    background-position: 50px 80px, 200px 50px;
+  }
+
+  to {
+    background-position: -10000px 4000px, 10200px -4000px;
+  }
+}
+
+/* Адаптив: уменьшаем интенсивность на мобильных для производительности */
+@media (max-width: 600px) {
+  body::before {
+    animation-duration: 180s;
+    opacity: 0.45;
+    background-size: 300px 300px, 500px 500px;
+  }
+
+  body::after {
+    animation-duration: 90s;
+    opacity: 0.25;
+    background-size: 160px 160px, 360px 360px;
+    filter: blur(1px);
+  }
+}
+
+.container {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 18px
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  background: var(--header-bg);
+  backdrop-filter: blur(6px);
+  z-index: 40;
+  border-bottom: 1px solid var(--border-color)
+}
+
+/* Smooth transitions for theme changes */
+body,
+.site-header,
+.hero-text h1,
+.hero-text p,
+.skill-card,
+.site-footer,
+.hero-photo-wrap img,
+.nav a {
+  transition: color .28s ease, background-color .28s ease, border-color .28s ease, box-shadow .28s ease;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0
+}
+
+.logo {
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 1px
+}
+
+.nav {
+  display: flex;
+  gap: 18px
+}
+
+.nav a {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 600
+}
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: 0;
+  font-size: 20px;
+  color: var(--text)
+}
+
+.hero {
+  padding: 48px 0
+}
+
+.hero-inner {
+  display: flex;
+  gap: 28px;
+  align-items: center
+}
+
+.hero-text h1 {
+  margin: 0;
+  font-size: 32px;
+  color: var(--accent)
+}
+
+.hero-text p {
+  color: var(--muted);
+  margin-top: 8px
+}
+
+.hero-photo-wrap {
+  position: relative;
+  width: 300px;
+  flex-shrink: 0
+}
+
+.hero-photo-wrap img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  display: block;
+  object-fit: cover;
+  border: 4px solid var(--image-border)
+}
+
+/* ensure overlay or cropping works */
+.hero-photo-wrap {
+  overflow: hidden
+}
+
+/* square cover to hide right-side person */
+.photo-cover {
+  position: absolute;
+  right: 14px;
+  top: 20px;
+  width: 88px;
+  height: 88px;
+  background: var(--bg);
+  border-radius: 6px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+  z-index: 30;
+}
+
+/* SVG стрелка */
+.arrow-svg {
+  position: absolute;
+  right: -110px;
+  top: 18px;
+  width: 140px;
+  height: 80px;
+  pointer-events: none;
+  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.12));
+}
+
+/* Яркая подпись рядом со стрелкой */
+.arrow-label {
+  position: absolute;
+  right: -98px;
+  top: 62px;
+  background: var(--yellow);
+  color: #111;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-weight: 800;
+  transform: rotate(-8deg);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  font-size: 14px;
+}
+
+/* Секции */
+.section {
+  padding: 48px 0
+}
+
+.section.alt {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.00))
+}
+
+h2 {
+  margin: 0 0 18px 0;
+  color: var(--accent);
+  font-size: 22px
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px
+}
+
+.skill-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  padding: 14px;
+  border-radius: 10px;
+ 
+  margin: 0 0 18px 0;
+  color: var(--accent);
+  font-size: 22px
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px
+}
+
+.skill-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  padding: 14px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px
+}
+
+.skill-card strong {
+  color: var(--text)
+}
+
+.skill-card span {
+  color: var(--muted);
+  font-size: 13px
+}
+
+.contacts-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px
+}
+
+.contacts-list a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600
+}
+
+.site-footer {
+  padding: 18px 0;
+  text-align: center;
+  color: var(--muted);
+  font-size: 14px;
+  border-top: 1px solid var(--border-color)
+}
+
+@media (max-width:880px) {
+  .hero-inner {
+    flex-direction: column;
+    align-items: flex-start
+  }
+
+  .nav {
+    display: none
+  }
+
+  .menu-toggle {
+    display: block
+  }
+
+  .hero-photo-wrap {
+    width: 100%;
+    max-width: 360px
+  }
+
+  .arrow-svg {
+    right: 8px;
+    top: 8px;
+    transform: scale(0.9) rotate(0deg)
+  }
+
+  .arrow-label {
+    right: 18px;
+    top: 72px;
+    transform: rotate(0deg)
+  }
+}

@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="ru">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Богдан — визитка</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Inline overrides to ensure the contact form darkens in dark theme */
+    :root{
+      --form-bg: #fbfbfb;
+      --form-border: #e6e6e6;
+      --input-bg: #ffffff;
+      --input-border: #dcdcdc;
+      --form-muted: #666666;
+    }
+    .dark-theme{
+      --form-bg: #0f1114;
+      --form-border: #1c1f23;
+      --input-bg: #0b0d10;
+      --input-border: #222428;
+      --form-muted: #a8adb3;
+    }
+
+    .contact-form{
+      background:var(--form-bg);
+      border:1px solid var(--form-border);
+      padding:1rem;
+      border-radius:10px;
+      box-shadow:0 6px 24px rgba(16,24,40,0.06);
+      transition:background-color .22s ease, border-color .22s ease, box-shadow .22s ease, color .22s ease;
+    }
+    .contact-form label{color:var(--form-muted)}
+    .contact-form input,
+    .contact-form textarea{
+      background:var(--input-bg);
+      border:1px solid var(--input-border);
+      color:inherit;
+      padding:.5rem .65rem;
+      border-radius:6px;
+    }
+
+    /* Reduce highlight/contrast in dark theme so form doesn't stand out too much */
+    .dark-theme .contact-form{
+      box-shadow:0 2px 8px rgba(0,0,0,0.25);
+    }
+    .dark-theme .contact-form input,
+    .dark-theme .contact-form textarea{
+      box-shadow:none;
+    }
+    .contact-form button[type="submit"]{
+      background: linear-gradient(135deg,#6c63ff 0%,#00c6ff 100%);
+      color:#fff;
+      border:none;
+      padding:.6rem .95rem;
+      border-radius:12px;
+      font-weight:600;
+      box-shadow:0 6px 18px rgba(100,80,255,0.18);
+      cursor:pointer;
+      transition:transform .12s ease, box-shadow .12s ease, opacity .12s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .contact-form button[type="submit"]:hover{
+      transform:translateY(-2px);
+      box-shadow:0 10px 24px rgba(100,80,255,0.22);
+    }
+    .contact-form button[type="submit"]:active{
+      transform:translateY(0);
+      opacity:.95;
+    }
+    .contact-form button[type="submit"]:focus{
+      outline:3px solid rgba(108,99,255,0.18);
+      outline-offset:2px;
+    }
+    /* Dark-theme variant: slightly more muted and less glow */
+    .dark-theme .contact-form button[type="submit"]{
+      background: linear-gradient(135deg,#3a3dff 0%,#00a0c7 100%);
+      box-shadow:0 4px 12px rgba(0,0,0,0.45);
+      color:#fff;
+    }
+    /* Skills icons and layout */
+    .skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:.5rem}
+    .skill-card{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:.4rem;padding:.6rem;border-radius:8px;color:var(--text);text-align:center}
+    .skill-card svg{width:28px;height:28px;flex:0 0 28px;display:block;stroke:currentColor;fill:none;stroke-width:1.6;opacity:.95;margin-bottom:2px}
+    .skill-card strong{display:block;font-size:1rem}
+    .skill-card span{display:block;font-size:.85rem;color:var(--form-muted,#666666)}
+    /* Make icons slightly muted in dark theme */
+    .dark-theme .skill-card svg{opacity:.85}
+    /* Theme toggle button */
+    .theme-toggle{background:none;border:none;cursor:pointer;padding:.4rem;display:flex;align-items:center;justify-content:center;color:var(--text);transition:opacity .2s ease}
+    .theme-toggle:hover{opacity:.7}
+    .theme-toggle svg{width:20px;height:20px}
+  </style>
+</head>
+
+<body>
+  <canvas id="starfield" aria-hidden="true"></canvas>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="logo">БОГДАН</div>
+      <nav id="primary-navigation" class="nav" aria-label="Главное меню">
+        <a href="#home">Главная</a>
+        <a href="#about">Обо мне</a>
+        <a href="#portfolio">Портфолио</a>
+        <a href="#contacts">Контакты</a>
+      </nav>
+      <div class="header-controls">
+        <button class="theme-toggle" aria-label="Переключить тему" aria-pressed="false"
+          title="Тёмная / светлая тема"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="5" stroke="currentColor" fill="none" stroke-width="2"/><path d="M12 1v6M12 17v6M4.22 4.22l4.24 4.24M15.54 15.54l4.24 4.24M1 12h6M17 12h6M4.22 19.78l4.24-4.24M15.54 8.46l4.24-4.24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <button class="menu-toggle" aria-label="Открыть меню" aria-expanded="false"
+          aria-controls="primary-navigation">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="home" class="hero">
+      <div class="container hero-inner">
+        <div class="hero-text">
+          <h1>Привет, я Богдан</h1>
+          <p>Студент ГУАП, направление Управление в технических системах. Увлекаюсь играми и программированием.</p>
+        </div>
+
+        <div class="hero-photo-wrap" aria-hidden="false">
+          <!-- Замените значение src на путь к вашему фото -->
+          <img id="profile-photo" src="photo_2025-12-02_19-38-00.jpg" alt="Фото Богдана">
+          <div class="photo-cover" aria-hidden="true"></div>
+
+          <!-- SVG стрелка, указывающая влево -->
+          <svg class="arrow-svg" viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs>
+              <linearGradient id="g" x1="0" x2="1">
+                <stop offset="0" stop-color="#ffd54a" />
+                <stop offset="1" stop-color="#ffb300" />
+              </linearGradient>
+            </defs>
+            <path d="M190 40 L40 40" stroke="url(#g)" stroke-width="12" stroke-linecap="round" fill="none" />
+            <path d="M40 40 L70 20 L70 60 Z" fill="url(#g)" />
+          </svg>
+
+          <div class="arrow-label"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="section">
+      <div class="container">
+        <h2>Обо мне</h2>
+        <p>Я студент, увлечённый инженерными и цифровыми технологиями — изучаю управление в технических системах и
+          активно развиваю навыки программирования. Интересуюсь игровыми проектами, визуальной графикой и автоматизацией
+          задач. Работая над учебными и личными проектами, стараюсь превращать идеи в рабочие прототипы и улучшать свои
+          навыки через практику.</p>
+      </div>
+    </section>
+
+    <!-- Галерея / Портфолио -->
+    <section id="portfolio" class="section alt">
+      <div class="container">
+        <h2>Портфолио / Галерея</h2>
+        <p>Ниже примеры работ и изображений — замените картинки на свои собственные фотографии или скриншоты проектов.
+        </p>
+        <div class="gallery-grid" role="list">
+          <figure class="gallery-item" role="listitem">
+            <img src="gallery1.jpg" alt="Проект 1" loading="lazy">
+            <figcaption>Проект 1 — скриншот</figcaption>
+          </figure>
+          <figure class="gallery-item" role="listitem">
+            <img src="gallery2.jpg" alt="Проект 2" loading="lazy">
+            <figcaption>Проект 2 — макет</figcaption>
+          </figure>
+          <figure class="gallery-item" role="listitem">
+            <img src="gallery3.jpg" alt="Проект 3" loading="lazy">
+            <figcaption>Проект 3 — обработка</figcaption>
+          </figure>
+          <figure class="gallery-item" role="listitem">
+            <img src="gallery4.jpg" alt="Проект 4" loading="lazy">
+            <figcaption>Проект 4 — иллюстрация</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills" class="section">
+      <div class="container">
+        <h2>Навыки</h2>
+        <div class="skills-grid">
+          <div class="skill-card">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 7L3 12l5 5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div class="skill-text"><strong>C++</strong><span>изучаю</span></div>
+          </div>
+          <div class="skill-card">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 7L3 12l5 5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div class="skill-text"><strong>Python</strong><span>базовые знания</span></div>
+          </div>
+          <div class="skill-card">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><path d="M7 17L12 7l5 10" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div class="skill-text"><strong>Adobe</strong><span>Photoshop,Premiere pro, After Effects</span></div>
+          </div>
+          <div class="skill-card">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="7" width="19" height="10" rx="3" ry="3"/><circle cx="8.5" cy="12" r="1.2"/><circle cx="15.5" cy="12" r="1.2"/></svg>
+            <div class="skill-text"><strong>Dota</strong><span>10k pts</span></div>
+          </div>
+          <div class="skill-card">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4v4M12 20v-4M4 12h4M20 12h-4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div class="skill-text"><strong>CS2 Faceit</strong><span>2500 elo</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contacts" class="section">
+      <div class="container">
+        <h2>Контакты</h2>
+        <ul class="contacts-list">
+          <li><strong>Email</strong>: <a href="mailto:glaygames23@gmail.com">glaygames23@gmail.com</a></li>
+          <li><strong>Телефон</strong>: <a href="tel:+79533232707">+7 953 323 2707</a></li>
+          <li><strong>Telegram</strong>: <a href="https://t.me/godsystem666666" target="_blank"
+              rel="noopener">t.me/godsystem666666</a></li>
+        </ul>
+
+        <!-- Форма обратной связи -->
+        <form id="contact-form" class="contact-form" novalidate>
+          <div class="form-row">
+            <label for="name">Имя</label>
+            <input id="name" name="name" type="text" required>
+            <span class="field-error" aria-live="polite"></span>
+          </div>
+          <div class="form-row">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" required>
+            <span class="field-error" aria-live="polite"></span>
+          </div>
+          <div class="form-row">
+            <label for="message">Сообщение</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+            <span class="field-error" aria-live="polite"></span>
+          </div>
+          <div class="form-row">
+            <button type="submit">Отправить</button>
+            <div id="form-status" class="form-status" aria-live="polite"></div>
+          </div>
+        </form>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div>© Богдан — ГУАП <span id="year"></span></div>
+        <div class="socials">
+          <a href="https://t.me/godsystem666666" target="_blank" rel="noopener" aria-label="Telegram">
+            <!-- simple telegram SVG -->
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M22 2L2 11l5 2 2 6 4-4 6 4z" />
+            </svg>
+          </a>
+          <a href="https://github.com/" target="_blank" rel="noopener" aria-label="GitHub">
+            <!-- simple github SVG -->
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path
+                d="M12 .5A12 12 0 0 0 0 12.7c0 5.3 3.4 9.8 8.2 11.4.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.6-4-1.6-.5-1.3-1.2-1.7-1.2-1.7-1-.7.1-.7.1-.7 1.1.1 1.7 1.1 1.7 1.1 1 .1 1.6-.7 2-1.2-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.6.1-3.3 0 0 1-.3 3.3 1.2a11.3 11.3 0 0 1 6 0C17 4.2 18 4.5 18 4.5c.6 1.7.2 3 .1 3.3.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.7.6 1.3 1.6 1.3 3.2v4.8c0 .3.2.7.8.6A12 12 0 0 0 24 12.7 12 12 0 0 0 12 .5z" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function(){
+      const toggle = document.querySelector('.theme-toggle');
+      const root = document.documentElement;
+      if(!toggle) return;
+
+      const stored = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const initial = stored || (prefersDark ? 'dark' : 'light');
+
+      function applyTheme(t){
+        const isDark = t === 'dark';
+        root.classList.toggle('dark-theme', isDark);
+        toggle.setAttribute('aria-pressed', String(isDark));
+        toggle.title = isDark ? 'Светлая тема' : 'Тёмная тема';
+      }
+
+      applyTheme(initial);
+
+      toggle.addEventListener('click', ()=>{
+        const isNowDark = !root.classList.contains('dark-theme');
+        const theme = isNowDark ? 'dark' : 'light';
+        applyTheme(theme);
+        try{ localStorage.setItem('theme', theme); }catch(e){}
+      });
+    })();
+  </script>
+  <script src="script.js"></script>
+</body>
+
+</html>
