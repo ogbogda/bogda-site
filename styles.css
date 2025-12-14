@@ -72,7 +72,8 @@ body::after {
 #starfield {
   position: fixed;
   inset: 0;
-  z-index: -1; /* позади контента, выше фона */
+  z-index: -1;
+  /* позади контента, выше фона */
   pointer-events: none;
   display: block;
   width: 100%;
@@ -222,18 +223,7 @@ body,
 }
 
 /* square cover to hide right-side person */
-.photo-cover {
-  position: absolute;
-  right: 14px;
-  top: 20px;
-  width: 88px;
-  height: 88px;
-  background: var(--bg);
-  border-radius: 6px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-  pointer-events: none;
-  z-index: 30;
-}
+
 
 /* SVG стрелка */
 .arrow-svg {
@@ -287,7 +277,7 @@ h2 {
   border: 1px solid var(--card-border);
   padding: 14px;
   border-radius: 10px;
- 
+
   margin: 0 0 18px 0;
   color: var(--accent);
   font-size: 22px

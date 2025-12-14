@@ -4,66 +4,83 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Богдан — визитка</title>
+  <title>ogbogda site GUAP</title>
   <link rel="stylesheet" href="styles.css">
   <style>
     :root {
-      --form-bg: #fbfbfb;
-      --form-border: #e6e6e6;
-      --input-bg: #ffffff;
-      --input-border: #dcdcdc;
-      --form-muted: #666666;
-    }
+      .gallery-grid {
+        margin-top: 1rem;
+      }
 
-    .dark-theme {
-      --form-bg: #0f1114;
-      --form-border: #1c1f23;
-      --input-bg: #0b0d10;
-      --input-border: #222428;
-      --form-muted: #a8adb3;
-    }
+      /* Small items row (centered) */
+      .small-grid {
+        display: flex;
+        gap: 16px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 16px;
+      }
 
-    .contact-form {
-      background: var(--form-bg);
-      border: 1px solid var(--form-border);
-      padding: 1rem;
-      border-radius: 10px;
-      box-shadow: 0 6px 24px rgba(16, 24, 40, 0.06);
-      transition: background-color .22s ease, border-color .22s ease, box-shadow .22s ease, color .22s ease;
-    }
+      .gallery-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        transition: transform .25s ease, box-shadow .25s ease;
+        background: var(--card-bg);
+      }
 
-    .contact-form label {
-      color: var(--form-muted)
-    }
+      .gallery-item:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+      }
 
-    .contact-form input,
-    .contact-form textarea {
-      background: var(--input-bg);
-      border: 1px solid var(--input-border);
-      color: inherit;
-      padding: .5rem .65rem;
-      border-radius: 6px;
-    }
+      /* small items size */
+      .small-grid .gallery-item {
+        max-width: 160px;
+        width: 160px;
+      }
 
-    .dark-theme .contact-form {
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
-    }
+      .gallery-item img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        display: block;
+      }
 
-    .dark-theme .contact-form input,
-    .dark-theme .contact-form textarea {
-      box-shadow: none;
-    }
+      /* Large video item (full width) */
+      .gallery-video {
+        width: 100%;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+      }
 
-    .contact-form button[type="submit"] {
-      background: linear-gradient(135deg, #6c63ff 0%, #00c6ff 100%);
-      color: #fff;
-      border: none;
-      padding: .6rem .95rem;
-      border-radius: 12px;
-      font-weight: 600;
-      box-shadow: 0 6px 18px rgba(100, 80, 255, 0.18);
-      cursor: pointer;
-      transition: transform .12s ease, box-shadow .12s ease, opacity .12s ease;
+      /* Remove border/shadow for the (removed) fourth item if present */
+      .gallery-item.no-frame {
+        box-shadow: none;
+        border: none;
+      }
+
+      /* Responsive video embed for the large item */
+      .video-embed {
+        position: relative;
+        width: 100%;
+        padding-top: 56.25%;
+        /* 16:9 ratio */
+        background: #000;
+      }
+
+      .video-embed iframe {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+      }
+
+      transition: transform .12s ease,
+      box-shadow .12s ease,
+      opacity .12s ease;
       -webkit-tap-highlight-color: transparent;
     }
 
@@ -177,10 +194,11 @@
       transform: scale(0.98);
     }
 
-    .home-btn svg {
-      width: 24px;
-      height: 24px;
+    .home-btn img {
+      width: 36px;
+      height: 36px;
       display: block;
+      object-fit: contain;
     }
 
     .socials {
@@ -199,6 +217,50 @@
       text-decoration: none;
       border-radius: 6px;
       transition: background-color .25s ease, transform .15s ease;
+    }
+
+    .guap-sign {
+      margin-top: 6px;
+      display: inline-block;
+    }
+
+    .guap-sign img {
+      width: 32px;
+      height: auto;
+      display: block;
+      margin-top: 6px;
+    }
+
+    @media (max-width: 480px) {
+      .guap-sign img {
+        width: 24px;
+      }
+    }
+
+    .footer-inner>div:first-child {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 6px;
+    }
+
+    .footer-inner>div:first-child .guap-sign {
+      order: -1;
+      margin-bottom: 0;
+    }
+
+    @media (max-width: 600px) {
+      .footer-inner {
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .footer-inner>div:first-child {
+        align-items: center;
+        text-align: center;
+      }
     }
 
     .socials a:hover {
@@ -240,11 +302,45 @@
       max-width: 160px;
     }
 
+    /* Make the 3rd gallery item span full width (large video) */
+    .gallery-item:nth-child(3) {
+      grid-column: 1 / -1;
+    }
+
+    /* Remove border/shadow for the 4th item */
+    .gallery-item:nth-child(4) {
+      box-shadow: none;
+      border: none;
+    }
+
+    .gallery-item:nth-child(4):hover {
+      transform: none;
+      box-shadow: none;
+    }
+
     .gallery-item img {
       width: 100%;
       height: 200px;
       object-fit: cover;
       display: block;
+    }
+
+    /* Responsive video embed for the large 3rd item */
+    .video-embed {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%;
+      /* 16:9 ratio */
+      background: #000;
+    }
+
+    .video-embed iframe {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
     }
 
     .gallery-item figcaption {
@@ -262,9 +358,7 @@
   <header class="site-header">
     <div class="container header-inner">
       <a href="#home" class="logo home-btn" aria-label="На главную">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8h5z" />
-        </svg>
+        <img src="s_guap-sign.png" alt="ГУАП" />
       </a>
       <nav id="primary-navigation" class="nav" aria-label="Главное меню">
         <a href="#home">Главная</a>
@@ -295,11 +389,8 @@
         </div>
 
         <div class="hero-photo-wrap" aria-hidden="false">
-          <!-- Замените значение src на путь к вашему фото -->
-          <img id="profile-photo" src="photo_2025-12-02_19-38-00.jpg" alt="Фото Богдана">
-          <div class="photo-cover" aria-hidden="true"></div>
+          <img id="profile-photo" src="Screenshot_8.png" alt="Фото">
 
-          <!-- SVG стрелка, указывающая влево -->
           <svg class="arrow-svg" viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <defs>
               <linearGradient id="g" x1="0" x2="1">
@@ -332,21 +423,24 @@
         <h2>Портфолио</h2>
         </p>
         <div class="gallery-grid" role="list">
-          <figure class="gallery-item" role="listitem">
-            <img src="kotik.jpg" alt="Проект 1" loading="lazy">
-            <figcaption>Проект 1 — скриншот</figcaption>
-          </figure>
-          <figure class="gallery-item" role="listitem">
-            <img src="gallery2.jpg" alt="Проект 2" loading="lazy">
-            <figcaption>Проект 2 — макет</figcaption>
-          </figure>
-          <figure class="gallery-item" role="listitem">
-            <img src="gallery3.jpg" alt="Проект 3" loading="lazy">
-            <figcaption>Проект 3 — обработка</figcaption>
-          </figure>
-          <figure class="gallery-item" role="listitem">
-            <img src="gallery4.jpg" alt="Проект 4" loading="lazy">
-            <figcaption>Проект 4 — иллюстрация</figcaption>
+          <div class="small-grid">
+            <figure class="gallery-item" role="listitem">
+              <img src="kotik.jpg" alt="Проект 1" loading="lazy">
+              <figcaption>Кот в арбузе</figcaption>
+            </figure>
+            <figure class="gallery-item" role="listitem">
+              <img src="sobaka.jpg" alt="Проект 2" loading="lazy">
+              <figcaption>Собака в ананасе</figcaption>
+            </figure>
+          </div>
+
+          <figure class="gallery-item gallery-video" role="listitem">
+            <div class="video-embed" aria-hidden="false">
+              <iframe src="https://www.youtube.com/embed/TVEX29oVffY" title="Видео — Проект 3"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+            </div>
+            <figcaption>Проект 3 — видео</figcaption>
           </figure>
         </div>
       </div>
@@ -434,7 +528,10 @@
   <footer class="site-footer">
     <div class="container">
       <div class="footer-inner">
-        <div>© Коновальчук Богдан Денисович — ГУАП <span id="year"></span></div>
+        <div>
+          © Коновальчук Богдан Денисович — ГУАП <span id="year"></span>
+          <div class="guap-sign"><img src="s_guap-sign.png" alt="ГУАП" /></div>
+        </div>
         <div class="socials">
           <a href="https://t.me/godsystem666666" target="_blank" rel="noopener" aria-label="Telegram">
             <!-- simple telegram SVG -->
