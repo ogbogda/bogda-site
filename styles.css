@@ -1,5 +1,4 @@
 :root {
-  /* Light theme (default) */
   --bg: #ffffff;
   --accent: #0b63c6;
   --accent-2: #6fb3ff;
@@ -8,7 +7,6 @@
   --yellow: #ffdd57;
   --container: 1100px;
 
-  /* component-specific defaults */
   --header-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
   --border-color: rgba(11, 38, 64, 0.06);
   --card-bg: #ffffff;
@@ -16,23 +14,18 @@
   --image-border: rgba(11, 99, 198, 0.06);
 }
 
-/* Dark theme overrides */
 .theme-dark {
   --bg: #0b1220;
-  /* deep navy */
   --accent: #6fb3ff;
-  /* bright blue accent */
   --accent-2: #2aa7ff;
-  --text: #e6f3ff;
-  /* light text */
+  
   --muted: #9fb0c6;
-  /* muted light */
   --yellow: #ffdd57;
 
   --header-bg: linear-gradient(180deg, rgba(11, 18, 32, 0.95), rgba(11, 18, 32, 0.9));
   --border-color: rgba(255, 255, 255, 0.04);
   --card-bg: rgba(255, 255, 255, 0.03);
-  --card-border: rgba(255, 255, 255, 0.04);
+  
   --image-border: rgba(255, 255, 255, 0.06);
 }
 
@@ -43,37 +36,32 @@
 html {
   scroll-behavior: smooth
 }
-
+  
 body {
   margin: 0;
   font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  color: var(--text);
+  
   background: var(--bg, #05060a);
   position: relative;
-  overflow-x: hidden;
+  
 }
-
-/* Анимированный фон — звёздное поле */
+  
 body {
-  /* если у вас уже есть переменная --bg, то сохраним её; иначе используем тёмный фон */
   background: var(--bg, #05060a);
   position: relative;
   overflow-x: hidden;
 }
 
-/* Отключаем старые CSS-слои звёзд (замена на canvas) */
 body::before,
 body::after {
   display: none !important;
   content: none !important;
 }
 
-/* Canvas звёздного поля */
 #starfield {
   position: fixed;
   inset: 0;
   z-index: -1;
-  /* позади контента, выше фона */
   pointer-events: none;
   display: block;
   width: 100%;
@@ -81,9 +69,9 @@ body::after {
   background: transparent;
 }
 
-/* Дополнительный мягкий градиент на заднем плане для атмосферы */
+  
 body::marker {
-  /* noop to avoid some linters — оставлено пустым */
+  
 }
 
 @keyframes moveStarsSlow {
@@ -99,16 +87,15 @@ body::marker {
 @keyframes moveStarsFast {
   from {
     background-position: 50px 80px, 200px 50px;
-  }
+  
 
   to {
     background-position: -10000px 4000px, 10200px -4000px;
   }
 }
 
-/* Адаптив: уменьшаем интенсивность на мобильных для производительности */
 @media (max-width: 600px) {
-  body::before {
+  
     animation-duration: 180s;
     opacity: 0.45;
     background-size: 300px 300px, 500px 500px;
@@ -137,7 +124,6 @@ body::marker {
   border-bottom: 1px solid var(--border-color)
 }
 
-/* Smooth transitions for theme changes */
 body,
 .site-header,
 .hero-text h1,
@@ -217,15 +203,13 @@ body,
   border: 4px solid var(--image-border)
 }
 
-/* ensure overlay or cropping works */
+.hero-photo-wrap {
+  overflow: hidden
+}
 .hero-photo-wrap {
   overflow: hidden
 }
 
-/* square cover to hide right-side person */
-
-
-/* SVG стрелка */
 .arrow-svg {
   position: absolute;
   right: -110px;
@@ -236,7 +220,6 @@ body,
   filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.12));
 }
 
-/* Яркая подпись рядом со стрелкой */
 .arrow-label {
   position: absolute;
   right: -98px;
@@ -251,7 +234,6 @@ body,
   font-size: 14px;
 }
 
-/* Секции */
 .section {
   padding: 48px 0
 }
@@ -331,6 +313,24 @@ h2 {
   border-top: 1px solid var(--border-color)
 }
 
+.video-embed,
+.video-embed iframe,
+.gallery-grid,
+.gallery-item {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+.video-embed {
+  overflow: hidden;
+}
+
+.video-embed iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 @media (max-width:880px) {
   .hero-inner {
     flex-direction: column;
@@ -360,5 +360,30 @@ h2 {
     right: 18px;
     top: 72px;
     transform: rotate(0deg)
+  }
+}
+
+@media (max-width: 600px) {
+
+  .gallery-grid {
+    display: block;
+    padding: 0;
+  }
+
+  .small-grid {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .gallery-item {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 0 12px 0;
+  }
+
+  .gallery-item.gallery-video {
+    margin-bottom: 0;
   }
 }
